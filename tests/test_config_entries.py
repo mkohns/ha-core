@@ -6121,7 +6121,7 @@ async def test_update_entry_and_reload_not_reload_if_update_listener(
 
     # Assert entry was reloaded
     assert len(called_setup) == 2
-    assert len(called_update_listener) == 1
+    assert len(called_update_listener) == 0
     assert len(comp.async_unload_entry.mock_calls) == 1
 
 
