@@ -76,6 +76,9 @@ jobs:
 
             # Use C-Extension for SQLAlchemy
             echo "REQUIRE_SQLALCHEMY_CEXT=1"
+
+            # Pip wheel constraints
+            echo "PIP_CONSTRAINT=build_constraints.txt"
           ) > .env_file
 
       - name: Upload env_file
@@ -156,7 +159,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        abi: ["cp312", "cp313"]
+        abi: ["cp313"]
         arch: ["armhf", "i386"]
     steps:
       - name: Checkout the repository
@@ -200,7 +203,10 @@ jobs:
       - name: Create requirements file for custom build
         run: |
           touch requirements_custom.txt
-          echo "numpy==2.2.1" >> requirements_custom.txt
+          echo "numpy==2.2.1  # force update" >> requirements_custom.txt
+
+          touch build_constraints.txt
+          echo "ninja==1.11.1.1" >> build_constraints.txt
 
       - name: Build wheels (custom)
         uses: cdce8p/wheels@master
@@ -213,9 +219,11 @@ jobs:
           apk: "bluez-dev;libffi-dev;openssl-dev;glib-dev;eudev-dev;libxml2-dev;libxslt-dev;libpng-dev;libjpeg-turbo-dev;tiff-dev;cups-dev;gmp-dev;mpfr-dev;mpc1-dev;ffmpeg-dev;gammu-dev;yaml-dev;openblas-dev;fftw-dev;lapack-dev;gfortran;blas-dev;eigen-dev;freetype-dev;glew-dev;harfbuzz-dev;hdf5-dev;libdc1394-dev;libtbb-dev;mesa-dev;openexr-dev;openjpeg-dev;uchardet-dev;nasm"
           constraints: "homeassistant/package_constraints.txt"
           requirements: "requirements_custom.txt"
-          pip: cython==3.0.11;meson==1.6.1;meson-python==0.17.1;packaging==24.2;pyproject-metadata==0.9.0;ninja==1.11.1.1
+          skip-binary: numpy
+          # pip: cython==3.0.11;meson==1.6.1;meson-python==0.17.1;packaging==24.2;pyproject-metadata==0.9.0;ninja==1.11.1.1
           verbose: true
-          no-build-isolation: true
+          # no-build-isolation: true
+          test: true
 
       - name: Build wheels (part 1)
         uses: home-assistant/wheels@2024.11.0
