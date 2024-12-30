@@ -1,8 +1,6 @@
 {
-  "remoteEnv": {
-      "PODMAN_USERNS": "keep-id"
-  },
   "containerUser": "vscode",    
+  "updateRemoteUserUID": true,
   "name": "Home Assistant Dev",
   "context": "..",
   "dockerFile": "../Dockerfile.dev",
@@ -20,7 +18,8 @@
     "-e",
     "GIT_EDITOR=code --wait",
     "--security-opt",
-    "label=disable"
+    "label=disable",
+    "--userns=keep-id:uid=1000,gid=1000"
   ],
   "customizations": {
     "vscode": {
