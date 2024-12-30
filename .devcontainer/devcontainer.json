@@ -19,7 +19,7 @@
     "GIT_EDITOR=code --wait",
     "--security-opt",
     "label=disable",
-    "--userns=keep-id:uid=1000,gid=1000"
+    "--userns=keep-id"
   ],
   "customizations": {
     "vscode": {
