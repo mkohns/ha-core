@@ -1,6 +1,4 @@
 {
-  "containerUser": "vscode",    
-  "updateRemoteUserUID": true,
   "name": "Home Assistant Dev",
   "context": "..",
   "dockerFile": "../Dockerfile.dev",
@@ -18,8 +16,7 @@
     "-e",
     "GIT_EDITOR=code --wait",
     "--security-opt",
-    "label=disable",
-    "--userns=keep-id"
+    "label=disable"
   ],
   "customizations": {
     "vscode": {
